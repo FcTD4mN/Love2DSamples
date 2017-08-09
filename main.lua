@@ -5,7 +5,7 @@ Ennemi          = require( "Ennemi" )
 
 local  hSpeed = 2
 local  allProjectiles = {}
-local  allEnnemies = {} -- TODO: handle bunch of ennemies + make them go towards player (function AI() ?)
+local  allEnnemies = {}
 
 function love.load()
     box         = Box:New( 10, 10, 16, 16 )
@@ -13,24 +13,33 @@ function love.load()
     wallTop     = Box:New( 50, love.graphics.getHeight() - 16*8, 16, 16*2 )
     wallBottom  = Box:New( 50, love.graphics.getHeight() - 16*3, 16, 16*2 )
 
-    ennemi      = Ennemi:New( 200, 10 )
+    for i = 0, 10 do
+        ennemi      = Ennemi:New( love.math.random( love.graphics.getWidth() - 16 ), 10 )
+        CollisionPool.AddInertElement( ennemi )
+        table.insert( allEnnemies, ennemi )
+    end
 
     CollisionPool.AddInertElement( ground )
     CollisionPool.AddInertElement( wallTop )
     CollisionPool.AddInertElement( wallBottom )
-    CollisionPool.AddInertElement( ennemi )
     CollisionPool.AddActiveElement( box )
 
     love.mouse.setVisible( false )
 end
 
 
-function love.update( dt )
+function love.update( iDeltaTime )
     -- Ex6TenZ
     for k,v in pairs( allProjectiles ) do
         if( v:IsWithinWindow() == false ) then
+            CollisionPool.RemoveActiveElement( v )
             table.remove( allProjectiles, k )
         end
+    end
+
+    -- AI stuff
+    for k,v in pairs( allEnnemies ) do
+        v:TrackAI( box.x, box.y )
     end
 
     -- Motion part
@@ -40,9 +49,19 @@ function love.update( dt )
         v:ApplyDirectionVector()
     end
 
+    for k,v in pairs( allEnnemies ) do
+        v:ApplyDirectionVector()
+    end
+
+    -- Collision
     CollisionPool.RunCollisionTests()
 
+    -- Move
     for k,v in pairs( allProjectiles ) do
+        v:Move()
+    end
+
+    for k,v in pairs( allEnnemies ) do
         v:Move()
     end
 
@@ -60,7 +79,9 @@ function love.draw()
     love.graphics.setColor( 10, 255, 50 )
     wallBottom:Draw()
 
-    ennemi:Draw()
+    for k,v in pairs( allEnnemies ) do
+        v:Draw()
+    end
 
     love.graphics.setColor( 255, 255, 50 )
     for k,v in pairs( allProjectiles ) do

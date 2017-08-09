@@ -55,5 +55,11 @@ function  Ennemi:Hit()
 end
 
 
+function Ennemi:TrackAI( iX, iY )
+    vector = Vector:New( iX - self.x, iY - self.y )
+    self.directionVector = vector:Normalized()
+end
+
+
 
 return  Ennemi

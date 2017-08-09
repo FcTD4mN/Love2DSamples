@@ -18,6 +18,24 @@ function CollisionPool.AddActiveElement( iElement )
 end
 
 
+function CollisionPool.RemoveInertElement( iElement )
+    for k,v in pairs( CollisionPool.inertElements ) do
+        if( v == iElement ) then
+            table.remove( CollisionPool.inertElements, k )
+        end
+    end
+end
+
+
+function CollisionPool.RemoveActiveElement( iElement )
+    for k,v in pairs( CollisionPool.activeElements ) do
+        if( v == iElement ) then
+            table.remove( CollisionPool.activeElements, k )
+        end
+    end
+end
+
+
 function  CollisionPool.RunCollisionTests()
     for k,v in pairs( CollisionPool.activeElements ) do
 
