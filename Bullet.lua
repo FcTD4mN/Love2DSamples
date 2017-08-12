@@ -28,8 +28,10 @@ end
 
 
 function  Bullet:Collide( iBox, iDirection )
-    if( iBox:Type() == "Ennemi" ) then
-        iBox:Hit()
+    if( iBox:Type() == "CharacterBase" ) then
+        iBox:Hit( 10 )
+    elseif( iBox:Type() == "Hero" ) then
+        return
     end
 
     self.x = -10

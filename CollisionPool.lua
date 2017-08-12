@@ -46,10 +46,10 @@ function  CollisionPool.RunCollisionTests()
             end
         end
 
-        for i = k + 1, #CollisionPool.activeElements do
-            if( CollisionPool.CheckCollisionAB( v, CollisionPool.activeElements[ i ] ) ) then
-                side = CollisionPool.GetCollisionSide( v, CollisionPool.activeElements[ i ] )
-                v:Collide( v, side )
+        for k2,v2 in pairs( CollisionPool.activeElements ) do
+            if( v ~= v2 ) and ( CollisionPool.CheckCollisionAB( v, v2 ) ) then
+                side = CollisionPool.GetCollisionSide( v, v2 )
+                v:Collide( v2, side )
             end
         end
 
@@ -64,7 +64,7 @@ function  CollisionPool.CheckCollisionAB( iBoxA, iBoxB )
     -- Skip large distances
     vectorA = Vector:New( projectionA.w, projectionA.h )
     vectorB = Vector:New( iBoxB.w, iBoxB.h )
-    xToX = Vector:New( projectionA.x - iBoxB.x, projectionA.y - iBoxB.y )
+    xToX    = Vector:New( projectionA.x - iBoxB.x, projectionA.y - iBoxB.y )
 
     if( xToX:LengthSquared() > vectorA:LengthSquared() + vectorB:LengthSquared() ) then
         return  false

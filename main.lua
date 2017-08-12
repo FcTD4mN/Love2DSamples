@@ -1,28 +1,29 @@
 Box             = require( "Box" )
 Bullet          = require( "Bullet" )
 CollisionPool   = require( "CollisionPool" )
-Ennemi          = require( "Ennemi" )
+CharacterBase   = require( "CharacterBase" )
+Hero            = require( "Hero" )
 
 local  hSpeed = 2
 local  allProjectiles = {}
 local  allEnnemies = {}
 
 function love.load()
-    box         = Box:New( 10, 10, 16, 16 )
+    hero        = Hero:New( 10, 10, 16, 16 )
     ground      = Box:New( 0, love.graphics.getHeight() - 16, love.graphics.getWidth(), 16 )
     wallTop     = Box:New( 50, love.graphics.getHeight() - 16*8, 16, 16*2 )
     wallBottom  = Box:New( 50, love.graphics.getHeight() - 16*3, 16, 16*2 )
 
     for i = 0, 10 do
-        ennemi      = Ennemi:New( love.math.random( love.graphics.getWidth() - 16 ), 10 )
-        CollisionPool.AddInertElement( ennemi )
+        ennemi      = CharacterBase:New( love.math.random( love.graphics.getWidth() - 16 ), 10 )
+        CollisionPool.AddActiveElement( ennemi )
         table.insert( allEnnemies, ennemi )
     end
 
     CollisionPool.AddInertElement( ground )
     CollisionPool.AddInertElement( wallTop )
     CollisionPool.AddInertElement( wallBottom )
-    CollisionPool.AddActiveElement( box )
+    CollisionPool.AddActiveElement( hero )
 
     love.mouse.setVisible( false )
 end
@@ -37,13 +38,20 @@ function love.update( iDeltaTime )
         end
     end
 
+    for k,v in pairs( allEnnemies ) do
+        if( v.life <= 0 ) then
+            CollisionPool.RemoveActiveElement( v )
+            table.remove( allEnnemies, k )
+        end
+    end
+
     -- AI stuff
     for k,v in pairs( allEnnemies ) do
-        v:TrackAI( box.x, box.y )
+        v:TrackAI( hero.x, hero.y )
     end
 
     -- Motion part
-    box:ApplyDirectionVector()
+    hero:ApplyDirectionVector()
 
     for k,v in pairs( allProjectiles ) do
         v:ApplyDirectionVector()
@@ -65,13 +73,13 @@ function love.update( iDeltaTime )
         v:Move()
     end
 
-    box:Move()
+    hero:Move()
 end
 
 
 function love.draw()
     love.graphics.setColor( 255, 10, 10 )
-    box:Draw()
+    hero:Draw()
     love.graphics.setColor( 10, 255, 10 )
     ground:Draw()
     love.graphics.setColor( 10, 255, 50 )
@@ -104,27 +112,27 @@ end
 
 function love.keypressed( iKey )
     if iKey == "d" then
-        box:AddVector( hSpeed, 0 )
+        hero:AddVector( hSpeed, 0 )
     elseif( iKey == "q" ) then
-        box:AddVector( -hSpeed, 0 )
+        hero:AddVector( -hSpeed, 0 )
     elseif( iKey == "space" ) then
-        box:AddVector( 0, -10 )
+        hero:AddVector( 0, -10 )
     end
 end
 
 
 function love.keyreleased( iKey )
     if iKey == "d" then
-        box:AddVector( -hSpeed, 0 )
+        hero:AddVector( -hSpeed, 0 )
     elseif( iKey == "q" ) then
-        box:AddVector( hSpeed, 0 )
+        hero:AddVector( hSpeed, 0 )
     end
 end
 
 
 function  love.mousepressed( iX, iY, iButton, iIsTouch )
     if( iButton == 1 ) then
-        bullet = Bullet:New( box.x + box.w / 2, box.y + box.h / 2, 5, 5 )
+        bullet = Bullet:New( hero.x + hero.w / 2, hero.y + hero.h / 2, 5, 5 )
         CollisionPool.AddActiveElement( bullet )
         table.insert( allProjectiles, bullet )
         vector = Vector:New( love.mouse.getX() - bullet.x, love.mouse.getY() - bullet.y )

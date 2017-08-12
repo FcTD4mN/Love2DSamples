@@ -40,7 +40,7 @@ function Box:AddVector( iX, iY )
     self.directionVector:Add( Vector:New( iX, iY ) )
 end
 
-
+-- Overload doesn't work in lua..
 function Box:AddVectorV( iVector )
     self.directionVector:Add( iVector )
 end
