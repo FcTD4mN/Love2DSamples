@@ -29,6 +29,13 @@ end
 
 
 function CharacterBase:Draw()
+    if  ( self.x + self.w - Camera.x <= 0 )
+        or ( self.y + self.h - Camera.y <= 0 )
+        or ( self.x >= love.graphics.getWidth() )
+        or ( self.y >= love.graphics.getHeight() ) then
+        return
+    end
+
     if( self.life <= 0 ) then
         return
     end
@@ -40,7 +47,7 @@ function CharacterBase:Draw()
     else
         love.graphics.setColor( 255,0,0 )
     end
-    love.graphics.rectangle( "fill", self.x, self.y, self.w, self.h )
+    love.graphics.rectangle( "fill", self.x - Camera.x, self.y - Camera.y, self.w, self.h )
 end
 
 

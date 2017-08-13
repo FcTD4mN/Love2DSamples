@@ -1,3 +1,4 @@
+Camera = require( "Camera" )
 Vector = require( "Vector" )
 
 local Box = {}
@@ -12,6 +13,7 @@ function Box:New( iX, iY, iW, iH )
     newBox.y = iY
     newBox.w = iW
     newBox.h = iH
+
     newBox.motionVector = Vector:New( 0, 0 )
     newBox.directionVector = Vector:New( 0, 0 )
     newBox.gravityVector = Vector:New( 0, 0.5 )
@@ -26,7 +28,14 @@ end
 
 
 function Box:Draw()
-    love.graphics.rectangle( "fill", self.x, self.y, self.w, self.h )
+    if  ( self.x + self.w - Camera.x <= 0 )
+        or ( self.y + self.h - Camera.y <= 0 )
+        or ( self.x >= love.graphics.getWidth() )
+        or ( self.y >= love.graphics.getHeight() ) then
+        return
+    end
+
+    love.graphics.rectangle( "fill", self.x - Camera.x, self.y - Camera.y, self.w, self.h )
 end
 
 

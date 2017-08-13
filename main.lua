@@ -1,5 +1,6 @@
 Box             = require( "Box" )
 Bullet          = require( "Bullet" )
+Camera          = require( "Camera" )
 CollisionPool   = require( "CollisionPool" )
 CharacterBase   = require( "CharacterBase" )
 Hero            = require( "Hero" )
@@ -7,14 +8,15 @@ Hero            = require( "Hero" )
 local  hSpeed = 2
 local  allProjectiles = {}
 local  allEnnemies = {}
+local  nbEnemies = 2
 
 function love.load()
-    hero        = Hero:New( 10, 10, 16, 16 )
+    hero        = Hero:New( love.graphics.getWidth() / 2 - 8, love.graphics.getHeight() / 2 - 8, 16, 16 )
     ground      = Box:New( 0, love.graphics.getHeight() - 16, love.graphics.getWidth(), 16 )
     wallTop     = Box:New( 50, love.graphics.getHeight() - 16*8, 16, 16*2 )
     wallBottom  = Box:New( 50, love.graphics.getHeight() - 16*3, 16, 16*2 )
 
-    for i = 0, 10 do
+    for i = 0, nbEnemies do
         ennemi      = CharacterBase:New( love.math.random( love.graphics.getWidth() - 16 ), 10 )
         CollisionPool.AddActiveElement( ennemi )
         table.insert( allEnnemies, ennemi )
@@ -24,6 +26,9 @@ function love.load()
     CollisionPool.AddInertElement( wallTop )
     CollisionPool.AddInertElement( wallBottom )
     CollisionPool.AddActiveElement( hero )
+
+    totalBackground = love.graphics.newImage( "Images/Background.png" )
+    bg = love.graphics.newQuad( 0, 0, love.graphics.getWidth(), love.graphics.getHeight(), totalBackground:getWidth(), totalBackground:getHeight() )
 
     love.mouse.setVisible( false )
 end
@@ -46,9 +51,9 @@ function love.update( iDeltaTime )
     end
 
     -- AI stuff
-    for k,v in pairs( allEnnemies ) do
-        v:TrackAI( hero.x, hero.y )
-    end
+    -- for k,v in pairs( allEnnemies ) do
+    --     v:TrackAI( hero.x, hero.y )
+    -- end
 
     -- Motion part
     hero:ApplyDirectionVector()
@@ -74,10 +79,17 @@ function love.update( iDeltaTime )
     end
 
     hero:Move()
+
+    -- Camera
+    x, y, w, h = bg:getViewport()
+    bg:setViewport( Camera.x, Camera.y, w, h )
 end
 
 
 function love.draw()
+
+    love.graphics.draw( totalBackground, bg, 0, 0 )
+
     love.graphics.setColor( 255, 10, 10 )
     hero:Draw()
     love.graphics.setColor( 10, 255, 10 )
@@ -135,7 +147,7 @@ function  love.mousepressed( iX, iY, iButton, iIsTouch )
         bullet = Bullet:New( hero.x + hero.w / 2, hero.y + hero.h / 2, 5, 5 )
         CollisionPool.AddActiveElement( bullet )
         table.insert( allProjectiles, bullet )
-        vector = Vector:New( love.mouse.getX() - bullet.x, love.mouse.getY() - bullet.y )
+        vector = Vector:New( love.mouse.getX() + Camera.x - bullet.x, love.mouse.getY() + Camera.y - bullet.y )
         bullet:AddVectorV( vector:Normalized() * 5 )
     end
 end

@@ -1,4 +1,5 @@
 Box             = require( "Box" )
+Camera          = require( "Camera" )
 CharacterBase   = require( "CharacterBase" )
 Vector          = require( "Vector" )
 
@@ -27,6 +28,16 @@ end
 
 function  Hero:Type()
     return  "Hero"
+end
+
+
+function  Hero:Move()
+    self.x = self.x + self.motionVector.x
+    self.y = self.y + self.motionVector.y
+    self:AddVectorV( self.gravityVector )
+
+    Camera.x = Camera.x + self.motionVector.x
+    Camera.y = Camera.y + self.motionVector.y
 end
 
 
