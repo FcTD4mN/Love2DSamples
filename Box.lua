@@ -16,7 +16,7 @@ function Box:New( iX, iY, iW, iH )
 
     newBox.motionVector     = Vector:New( 0, 0 )
     newBox.directionVector  = Vector:New( 0, 0 )
-    newBox.gravityVector    = Vector:New( 0, 0.5 )
+    newBox.gravityVector    = Vector:New( 0, 2 )
 
     return  newBox
 end

@@ -18,7 +18,7 @@ function  Hero:New( iX, iY, iW, iH )
 
     newHero.motionVector        = Vector:New( 0, 0 )
     newHero.directionVector     = Vector:New( 0, 0 )
-    newHero.gravityVector       = Vector:New( 0, 0.5 )
+    newHero.gravityVector       = Vector:New( 0, 2 )
 
     newHero.life = 100
 

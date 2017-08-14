@@ -6,10 +6,11 @@ CollisionPool   = require( "CollisionPool" )
 CharacterBase   = require( "CharacterBase" )
 Hero            = require( "Hero" )
 
-local  hSpeed = 2
+local  hSpeed = 8
 local  allProjectiles = {}
 local  allEnnemies = {}
 local  nbEnemies = 2
+local  tick = 0
 
 function love.load()
     hero        = Hero:New( love.graphics.getWidth() / 2 - 8, love.graphics.getHeight() / 2 - 8, 16, 16 )
@@ -31,6 +32,16 @@ end
 
 
 function love.update( iDeltaTime )
+    -- So, here is the thing
+    -- If we don't limit computers with ticks, the faster the computer will be, the faster the game will as well ...
+    -- So all processing stuff have to be timed, whereas drawing stuff can go as fast as possible
+    if( tick <= 1/124 ) then
+        tick = tick + iDeltaTime
+        return
+    end
+
+    tick = 0
+
     -- Ex6TenZ
     for k,v in pairs( allProjectiles ) do
         if( v:IsWithinWindow() == false ) then
@@ -88,6 +99,7 @@ function love.draw()
 
     love.graphics.setColor( 255, 10, 10 )
     hero:Draw()
+
     BasicLevel.Draw()
 
     for k,v in pairs( allEnnemies ) do
@@ -119,7 +131,7 @@ function love.keypressed( iKey )
     elseif( iKey == "q" ) then
         hero:AddVector( -hSpeed, 0 )
     elseif( iKey == "space" ) then
-        hero:AddVector( 0, -12 )
+        hero:AddVector( 0, -hSpeed * 3 )
     end
 end
 

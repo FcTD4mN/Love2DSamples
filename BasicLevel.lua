@@ -17,6 +17,8 @@ function  BasicLevel.Initialize()
     BasicLevel.AddWall( 100, y, 100, 16 )
     y = y + 100
     BasicLevel.AddWall( 250, y, 100, 16 )
+
+    BasicLevel.AddWall( 500, y, 500, 16 )
 end
 
 function BasicLevel.AddWall( iX, iY, iW, iH )
