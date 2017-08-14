@@ -16,7 +16,7 @@ function love.load()
     BasicLevel.Initialize()
 
     for i = 0, nbEnemies do
-        ennemi      = CharacterBase:New( love.math.random( love.graphics.getWidth() - 16 ), 10 )
+        ennemi  =  CharacterBase:New( love.math.random( love.graphics.getWidth() - 16 ), 500 )
         CollisionPool.AddActiveElement( ennemi )
         table.insert( allEnnemies, ennemi )
     end
