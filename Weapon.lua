@@ -26,7 +26,7 @@ function  Weapon:Fire( iCenter, iDestination )
     bullet.damage = self.damage
 
     vector = Vector:New( iDestination.x - iCenter.x, iDestination.y - iCenter.y )
-    bullet:AddVectorV( vector:Normalized() * 5 )
+    bullet:AddVectorV( vector:Normalized() * 10 )
 
     CollisionPool.AddActiveElement( bullet )
     ProjectilePool.Add( bullet )

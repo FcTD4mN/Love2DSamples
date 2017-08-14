@@ -3,7 +3,7 @@ Vector          = require( "Vector" )
 Weapon          = require( "Weapon" )
 
 -- Inherits from CharacterBase
-WeaponLarger = Weapon:New( 0, 0 )
+WeaponLarger = Weapon:New( 20 )
 
 function  WeaponLarger:New( iDamage )
     newWeaponLarger = {}
