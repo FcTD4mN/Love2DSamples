@@ -18,6 +18,8 @@ function  Bullet:New( iX, iY, iW, iH )
     newBullet.directionVector   = Vector:New( 0, 0 )
     newBullet.gravityVector     = Vector:New( 0, 0 )
 
+    newBullet.damage = 0
+
     return  newBullet
 end
 
@@ -29,7 +31,7 @@ end
 
 function  Bullet:Collide( iBox, iDirection )
     if( iBox:Type() == "CharacterBase" ) then
-        iBox:Hit( 10 )
+        iBox:Hit( self.damage )
     elseif( iBox:Type() == "Hero" ) then
         return
     end

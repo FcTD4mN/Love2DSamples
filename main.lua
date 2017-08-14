@@ -5,6 +5,7 @@ Camera          = require( "Camera" )
 CollisionPool   = require( "CollisionPool" )
 CharacterBase   = require( "CharacterBase" )
 Hero            = require( "Hero" )
+ProjectilePool  = require( "ProjectilePool" )
 
 local  hSpeed = 8
 local  allProjectiles = {}
@@ -14,6 +15,7 @@ local  tick = 0
 
 function love.load()
     hero        = Hero:New( love.graphics.getWidth() / 2 - 8, love.graphics.getHeight() / 2 - 8, 16, 16 )
+
     BasicLevel.Initialize()
 
     for i = 0, nbEnemies do
@@ -43,12 +45,7 @@ function love.update( iDeltaTime )
     tick = 0
 
     -- Ex6TenZ
-    for k,v in pairs( allProjectiles ) do
-        if( v:IsWithinWindow() == false ) then
-            CollisionPool.RemoveActiveElement( v )
-            table.remove( allProjectiles, k )
-        end
-    end
+    ProjectilePool.Drain()
 
     for k,v in pairs( allEnnemies ) do
         if( v.life <= 0 ) then
@@ -65,9 +62,7 @@ function love.update( iDeltaTime )
     -- Motion part
     hero:ApplyDirectionVector()
 
-    for k,v in pairs( allProjectiles ) do
-        v:ApplyDirectionVector()
-    end
+    ProjectilePool.ApplyVectors()
 
     for k,v in pairs( allEnnemies ) do
         v:ApplyDirectionVector()
@@ -77,9 +72,7 @@ function love.update( iDeltaTime )
     CollisionPool.RunCollisionTests()
 
     -- Move
-    for k,v in pairs( allProjectiles ) do
-        v:Move()
-    end
+    ProjectilePool.Move()
 
     for k,v in pairs( allEnnemies ) do
         v:Move()
@@ -107,9 +100,7 @@ function love.draw()
     end
 
     love.graphics.setColor( 255, 255, 50 )
-    for k,v in pairs( allProjectiles ) do
-        v:Draw()
-    end
+    ProjectilePool.Draw()
 
     DrawCursor()
 end
@@ -147,12 +138,7 @@ end
 
 function  love.mousepressed( iX, iY, iButton, iIsTouch )
     if( iButton == 1 ) then
-        bullet = Bullet:New( hero.x + hero.w / 2, hero.y + hero.h / 2, 5, 5 )
-        CollisionPool.AddActiveElement( bullet )
-        table.insert( allProjectiles, bullet )
-
         x, y = Camera.MapToWorld( love.mouse.getX(), love.mouse.getY() )
-        vector = Vector:New( x - bullet.x, y - bullet.y )
-        bullet:AddVectorV( vector:Normalized() * 5 )
+        hero:Shoot( Vector:New( x, y ) )
     end
 end

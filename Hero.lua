@@ -2,6 +2,8 @@ Box             = require( "Box" )
 Camera          = require( "Camera" )
 CharacterBase   = require( "CharacterBase" )
 Vector          = require( "Vector" )
+Weapon          = require( "Weapon" )
+WeaponLarger    = require( "WeaponLarger" )
 
 -- Inherits from CharacterBase
 Hero = CharacterBase:New( 0, 0 )
@@ -21,6 +23,8 @@ function  Hero:New( iX, iY, iW, iH )
     newHero.gravityVector       = Vector:New( 0, 2 )
 
     newHero.life = 100
+
+    newHero.weapon = WeaponLarger:New( 90 )
 
     return  newHero
 end
@@ -49,6 +53,12 @@ function  Hero:Collide( iBox, iDirection )
     elseif( iDirection == "Left" ) or ( iDirection == "Right" ) then
         self.motionVector.x = 0
     end
+end
+
+
+function  Hero:Shoot( iDestination )
+    center = Vector:New( hero.x + hero.w / 2, hero.y + hero.h / 2 )
+    self.weapon:Fire( center, iDestination )
 end
 
 
