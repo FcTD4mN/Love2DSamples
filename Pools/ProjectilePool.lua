@@ -1,6 +1,6 @@
-Bullet          = require( "Bullet" )
+Bullet          = require( "Objects/Bullet" )
 Camera          = require( "Camera" )
-CollisionPool   = require( "CollisionPool" )
+CollisionPool   = require( "Pools/CollisionPool" )
 
 local ProjectilePool = {
     allProjectiles = {}

@@ -1,5 +1,5 @@
-Box     = require( "Box" )
-Vector  = require( "Vector" )
+Box     = require( "Objects/Box" )
+Vector  = require( "Utilities/Vector" )
 
 -- CollisionPool
 local CollisionPool = {

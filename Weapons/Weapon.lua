@@ -1,7 +1,7 @@
-Bullet          = require( "Bullet" )
-CollisionPool   = require( "CollisionPool" )
-ProjectilePool  = require( "ProjectilePool" )
-Vector          = require( "Vector" )
+Bullet          = require( "Objects/Bullet" )
+CollisionPool   = require( "Pools/CollisionPool" )
+ProjectilePool  = require( "Pools/ProjectilePool" )
+Vector          = require( "Utilities/Vector" )
 
 local Weapon = {}
 

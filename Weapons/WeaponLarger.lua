@@ -1,6 +1,6 @@
-Bullet          = require( "Bullet" )
-Vector          = require( "Vector" )
-Weapon          = require( "Weapon" )
+Bullet          = require( "Objects/Bullet" )
+Vector          = require( "Utilities/Vector" )
+Weapon          = require( "Weapons/Weapon" )
 
 -- Inherits from CharacterBase
 WeaponLarger = Weapon:New( 20 )

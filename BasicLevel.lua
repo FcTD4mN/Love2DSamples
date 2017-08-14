@@ -1,4 +1,4 @@
-CollisionPool = require( "CollisionPool" )
+CollisionPool = require( "Pools/CollisionPool" )
 
 local BasicLevel = {
     allWalls = {}

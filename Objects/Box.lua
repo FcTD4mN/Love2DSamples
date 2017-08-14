@@ -1,5 +1,5 @@
 Camera = require( "Camera" )
-Vector = require( "Vector" )
+Vector = require( "Utilities/Vector" )
 
 local Box = {}
 

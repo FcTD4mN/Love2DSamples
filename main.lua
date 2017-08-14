@@ -1,11 +1,11 @@
 BasicLevel      = require( "BasicLevel" )
-Box             = require( "Box" )
-Bullet          = require( "Bullet" )
+Box             = require( "Objects/Box" )
+Bullet          = require( "Objects/Bullet" )
 Camera          = require( "Camera" )
-CollisionPool   = require( "CollisionPool" )
-CharacterBase   = require( "CharacterBase" )
-Hero            = require( "Hero" )
-ProjectilePool  = require( "ProjectilePool" )
+CollisionPool   = require( "Pools/CollisionPool" )
+CharacterBase   = require( "Objects/CharacterBase" )
+Hero            = require( "Objects/Hero" )
+ProjectilePool  = require( "Pools/ProjectilePool" )
 
 local  hSpeed = 8
 local  allProjectiles = {}

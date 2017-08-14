@@ -1,4 +1,4 @@
-Box     = require( "Box" )
+Box     = require( "Objects/Box" )
 
 -- Inherits from box
 CharacterBase = Box:New( 0, 0, 5, 5 )

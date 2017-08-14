@@ -1,9 +1,9 @@
-Box             = require( "Box" )
+Box             = require( "Objects/Box" )
 Camera          = require( "Camera" )
-CharacterBase   = require( "CharacterBase" )
-Vector          = require( "Vector" )
-Weapon          = require( "Weapon" )
-WeaponLarger    = require( "WeaponLarger" )
+CharacterBase   = require( "Objects/CharacterBase" )
+Vector          = require( "Utilities/Vector" )
+Weapon          = require( "Weapons/Weapon" )
+WeaponLarger    = require( "Weapons/WeaponLarger" )
 
 -- Inherits from CharacterBase
 Hero = CharacterBase:New( 0, 0 )

@@ -1,5 +1,5 @@
-Box     = require( "Box" )
-Vector  = require( "Vector" )
+Box     = require( "Objects/Box" )
+Vector  = require( "Utilities/Vector" )
 
 -- Inherits from box
 Bullet = Box:New( 0, 0, 5, 5 )
