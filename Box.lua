@@ -14,9 +14,9 @@ function Box:New( iX, iY, iW, iH )
     newBox.w = iW
     newBox.h = iH
 
-    newBox.motionVector = Vector:New( 0, 0 )
-    newBox.directionVector = Vector:New( 0, 0 )
-    newBox.gravityVector = Vector:New( 0, 0.5 )
+    newBox.motionVector     = Vector:New( 0, 0 )
+    newBox.directionVector  = Vector:New( 0, 0 )
+    newBox.gravityVector    = Vector:New( 0, 0.5 )
 
     return  newBox
 end
@@ -28,14 +28,15 @@ end
 
 
 function Box:Draw()
-    if  ( self.x + self.w - Camera.x <= 0 )
-        or ( self.y + self.h - Camera.y <= 0 )
-        or ( self.x >= love.graphics.getWidth() )
-        or ( self.y >= love.graphics.getHeight() ) then
+    x, y = Camera.MapToScreen( self.x, self.y )
+    if  ( x + self.w <= 0 )
+        or ( y + self.h <= 0 )
+        or ( x >= love.graphics.getWidth() )
+        or ( y >= love.graphics.getHeight() ) then
         return
     end
 
-    love.graphics.rectangle( "fill", self.x - Camera.x, self.y - Camera.y, self.w, self.h )
+    love.graphics.rectangle( "fill", x, y, self.w, self.h )
 end
 
 
@@ -101,8 +102,9 @@ end
 
 
 function  Box:IsWithinWindow()
-    return  self.x > 0 and self.x + self.w < love.graphics.getWidth()
-        and self.y > 0 and self.y + self.h < love.graphics.getHeight()
+    x, y = Camera.MapToScreen( self.x, self.y )
+    return  x > 0 and x + self.w < love.graphics.getWidth()
+        and y > 0 and y + self.h < love.graphics.getHeight()
 end
 
 

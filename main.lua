@@ -1,3 +1,4 @@
+BasicLevel      = require( "BasicLevel" )
 Box             = require( "Box" )
 Bullet          = require( "Bullet" )
 Camera          = require( "Camera" )
@@ -12,9 +13,7 @@ local  nbEnemies = 2
 
 function love.load()
     hero        = Hero:New( love.graphics.getWidth() / 2 - 8, love.graphics.getHeight() / 2 - 8, 16, 16 )
-    ground      = Box:New( 0, love.graphics.getHeight() - 16, love.graphics.getWidth(), 16 )
-    wallTop     = Box:New( 50, love.graphics.getHeight() - 16*8, 16, 16*2 )
-    wallBottom  = Box:New( 50, love.graphics.getHeight() - 16*3, 16, 16*2 )
+    BasicLevel.Initialize()
 
     for i = 0, nbEnemies do
         ennemi      = CharacterBase:New( love.math.random( love.graphics.getWidth() - 16 ), 10 )
@@ -22,9 +21,6 @@ function love.load()
         table.insert( allEnnemies, ennemi )
     end
 
-    CollisionPool.AddInertElement( ground )
-    CollisionPool.AddInertElement( wallTop )
-    CollisionPool.AddInertElement( wallBottom )
     CollisionPool.AddActiveElement( hero )
 
     totalBackground = love.graphics.newImage( "Images/Background.png" )
@@ -92,12 +88,7 @@ function love.draw()
 
     love.graphics.setColor( 255, 10, 10 )
     hero:Draw()
-    love.graphics.setColor( 10, 255, 10 )
-    ground:Draw()
-    love.graphics.setColor( 10, 255, 50 )
-    wallTop:Draw()
-    love.graphics.setColor( 10, 255, 50 )
-    wallBottom:Draw()
+    BasicLevel.Draw()
 
     for k,v in pairs( allEnnemies ) do
         v:Draw()
@@ -128,7 +119,7 @@ function love.keypressed( iKey )
     elseif( iKey == "q" ) then
         hero:AddVector( -hSpeed, 0 )
     elseif( iKey == "space" ) then
-        hero:AddVector( 0, -10 )
+        hero:AddVector( 0, -12 )
     end
 end
 
@@ -147,7 +138,9 @@ function  love.mousepressed( iX, iY, iButton, iIsTouch )
         bullet = Bullet:New( hero.x + hero.w / 2, hero.y + hero.h / 2, 5, 5 )
         CollisionPool.AddActiveElement( bullet )
         table.insert( allProjectiles, bullet )
-        vector = Vector:New( love.mouse.getX() + Camera.x - bullet.x, love.mouse.getY() + Camera.y - bullet.y )
+
+        x, y = Camera.MapToWorld( love.mouse.getX(), love.mouse.getY() )
+        vector = Vector:New( x - bullet.x, y - bullet.y )
         bullet:AddVectorV( vector:Normalized() * 5 )
     end
 end

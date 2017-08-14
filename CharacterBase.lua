@@ -29,10 +29,11 @@ end
 
 
 function CharacterBase:Draw()
-    if  ( self.x + self.w - Camera.x <= 0 )
-        or ( self.y + self.h - Camera.y <= 0 )
-        or ( self.x >= love.graphics.getWidth() )
-        or ( self.y >= love.graphics.getHeight() ) then
+    x, y = Camera.MapToScreen( self.x, self.y )
+    if  ( x + self.w <= 0 )
+        or ( y + self.h <= 0 )
+        or ( x >= love.graphics.getWidth() )
+        or ( y >= love.graphics.getHeight() ) then
         return
     end
 
@@ -47,7 +48,7 @@ function CharacterBase:Draw()
     else
         love.graphics.setColor( 255,0,0 )
     end
-    love.graphics.rectangle( "fill", self.x - Camera.x, self.y - Camera.y, self.w, self.h )
+    love.graphics.rectangle( "fill", x, y, self.w, self.h )
 end
 
 
