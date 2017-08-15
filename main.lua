@@ -6,6 +6,9 @@ CollisionPool   = require( "Pools/CollisionPool" )
 CharacterBase   = require( "Objects/CharacterBase" )
 Hero            = require( "Objects/Hero" )
 ProjectilePool  = require( "Pools/ProjectilePool" )
+Weapon          = require( "Weapons/Weapon" )
+WeaponLarger    = require( "Weapons/WeaponLarger" )
+WeaponSpread    = require( "Weapons/WeaponSpread" )
 
 local  hSpeed = 8
 local  allProjectiles = {}
@@ -116,13 +119,19 @@ function  DrawCursor()
 end
 
 
-function love.keypressed( iKey )
+function love.keypressed( iKey, iScanCode, iIsRepeat )
     if iKey == "d" then
         hero:AddVector( hSpeed, 0 )
     elseif( iKey == "q" ) then
         hero:AddVector( -hSpeed, 0 )
-    elseif( iKey == "space" ) then
+    elseif( iKey == "space" ) and ( hero.motionVector.y == 0 ) then
         hero:AddVector( 0, -hSpeed * 3 )
+    elseif( iKey == "1" ) then
+        hero:SetWeapon( Weapon:New( 20 ) )
+    elseif( iKey == "2" ) then
+        hero:SetWeapon( WeaponLarger:New( 90 ) )
+    elseif( iKey == "3" ) then
+        hero:SetWeapon( WeaponSpread:New( 10 ) )
     end
 end
 

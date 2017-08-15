@@ -34,8 +34,11 @@ function  Bullet:Collide( iBox, iDirection )
         iBox:Hit( self.damage )
     elseif( iBox:Type() == "Hero" ) then
         return
+    elseif( iBox:Type() == "Bullet" ) then
+        return
     end
 
+    -- Put it outta screen so it'll be Drained by the projectile pool
     self.x = -10
     self.y = -10
 end

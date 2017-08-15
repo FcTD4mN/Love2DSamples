@@ -20,7 +20,7 @@ end
 function  ProjectilePool.Drain()
     for k,v in pairs( ProjectilePool.allProjectiles ) do
         if( v:IsWithinWindow() == false ) then
-            CollisionPool.RemoveActiveElement( v )
+            CollisionPool.RemoveProjectile( v )
             table.remove( ProjectilePool.allProjectiles, k )
         end
     end

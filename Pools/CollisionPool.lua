@@ -4,7 +4,8 @@ Vector  = require( "Utilities/Vector" )
 -- CollisionPool
 local CollisionPool = {
     inertElements = {},
-    activeElements = {}
+    activeElements = {},
+    projectiles = {}
 }
 
 
@@ -15,6 +16,11 @@ end
 
 function CollisionPool.AddActiveElement( iElement )
     table.insert( CollisionPool.activeElements, iElement )
+end
+
+
+function CollisionPool.AddProjectile( iProjectile )
+    table.insert( CollisionPool.projectiles, iProjectile )
 end
 
 
@@ -31,6 +37,15 @@ function CollisionPool.RemoveActiveElement( iElement )
     for k,v in pairs( CollisionPool.activeElements ) do
         if( v == iElement ) then
             table.remove( CollisionPool.activeElements, k )
+        end
+    end
+end
+
+
+function CollisionPool.RemoveProjectile( iProjectile )
+    for k,v in pairs( CollisionPool.projectiles ) do
+        if( v == iProjectile ) then
+            table.remove( CollisionPool.projectiles, k )
         end
     end
 end
@@ -54,6 +69,23 @@ function  CollisionPool.RunCollisionTests()
         end
 
     end
+
+    for k,v in pairs( CollisionPool.projectiles ) do
+
+        for k2,v2 in pairs( CollisionPool.inertElements ) do
+            if( CollisionPool.CheckCollisionAB( v, v2 ) ) then
+                v:Collide( v2, "doesntmatter" )
+            end
+        end
+
+        for k2,v2 in pairs( CollisionPool.activeElements ) do
+            if( CollisionPool.CheckCollisionAB( v, v2 ) ) then
+                v:Collide( v2, "doesntmatter" )
+            end
+        end
+
+    end
+
 end
 
 

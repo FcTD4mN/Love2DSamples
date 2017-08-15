@@ -56,6 +56,11 @@ function  Hero:Collide( iBox, iDirection )
 end
 
 
+function  Hero:SetWeapon( iWeapon )
+    self.weapon = iWeapon
+end
+
+
 function  Hero:Shoot( iDestination )
     center = Vector:New( hero.x + hero.w / 2, hero.y + hero.h / 2 )
     self.weapon:Fire( center, iDestination )
