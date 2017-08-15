@@ -5,7 +5,7 @@ Vector  = require( "Utilities/Vector" )
 local CollisionPool = {
     inertElements = {},
     activeElements = {},
-    projectiles = {}
+    projectiles = {} -- We need a separate pool for projectiles, because there are many of them, and they don't test collision between each other
 }
 
 
@@ -74,13 +74,13 @@ function  CollisionPool.RunCollisionTests()
 
         for k2,v2 in pairs( CollisionPool.inertElements ) do
             if( CollisionPool.CheckCollisionAB( v, v2 ) ) then
-                v:Collide( v2, "doesntmatter" )
+                v:Collide( v2, "doesntmatter" ) -- Here, we don't care what side it was, we just deal the damages
             end
         end
 
         for k2,v2 in pairs( CollisionPool.activeElements ) do
             if( CollisionPool.CheckCollisionAB( v, v2 ) ) then
-                v:Collide( v2, "doesntmatter" )
+                v:Collide( v2, "doesntmatter" ) -- Here, we don't care what side it was, we just deal the damages
             end
         end
 
