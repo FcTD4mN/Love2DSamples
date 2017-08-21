@@ -10,8 +10,12 @@ function  CharacterBase:New( iX, iY )
 
     newCharacterBase.x = iX
     newCharacterBase.y = iY
+
     newCharacterBase.w = 24
     newCharacterBase.h = 24
+
+    newCharacterBase.x2 = iX + newCharacterBase.w -- So we avoid doing billions times those sums
+    newCharacterBase.y2 = iY + newCharacterBase.h -- So we avoid doing billions times those sums
 
     newCharacterBase.motionVector      = Vector:New( 0, 0 )
     newCharacterBase.directionVector   = Vector:New( 0, 0 )
@@ -29,6 +33,8 @@ end
 
 
 function CharacterBase:Draw()
+    if( self:IsWithinWindow() == false ) then return end
+
     x, y = Camera.MapToScreen( self.x, self.y )
     if  ( x + self.w <= 0 )
         or ( y + self.h <= 0 )

@@ -11,8 +11,12 @@ function  Bullet:New( iX, iY, iW, iH )
 
     newBullet.x = iX
     newBullet.y = iY
+
     newBullet.w = iW
     newBullet.h = iH
+
+    newBullet.x2 = iX + newBullet.w -- So we avoid doing billions times those sums
+    newBullet.y2 = iY + newBullet.h -- So we avoid doing billions times those sums
 
     newBullet.motionVector      = Vector:New( 0, 0 )
     newBullet.directionVector   = Vector:New( 0, 0 )

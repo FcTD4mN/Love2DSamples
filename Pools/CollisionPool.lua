@@ -102,11 +102,7 @@ function  CollisionPool.CheckCollisionAB( iBoxA, iBoxB )
         return  false
     end
 
-    -- Simple tests have to be done in both ways to ensure all detections : projA->iBoxB and iBoxB->projA
     if( projectionA:SimpleCollision( iBoxB ) ) then
-        return  true
-    end
-    if( iBoxB:SimpleCollision( projectionA ) ) then
         return  true
     end
 

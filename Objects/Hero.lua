@@ -15,8 +15,12 @@ function  Hero:New( iX, iY, iW, iH )
 
     newHero.x = iX
     newHero.y = iY
+
     newHero.w = iW
     newHero.h = iH
+
+    newHero.x2 = iX + newHero.w -- So we avoid doing billions times those sums
+    newHero.y2 = iY + newHero.h -- So we avoid doing billions times those sums
 
     newHero.motionVector        = Vector:New( 0, 0 )
     newHero.directionVector     = Vector:New( 0, 0 )
@@ -36,8 +40,8 @@ end
 
 
 function  Hero:Move()
-    self.x = self.x + self.motionVector.x
-    self.y = self.y + self.motionVector.y
+    self:SetX( self.x + self.motionVector.x )
+    self:SetY( self.y + self.motionVector.y )
     self:AddVectorV( self.gravityVector )
 
     Camera.x = Camera.x + self.motionVector.x
